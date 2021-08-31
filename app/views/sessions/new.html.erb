@@ -1,0 +1,544 @@
+
+
+<!-- Nuevo codigo -->
+
+<div class="contenedor-login">
+  <div class="cuerpo-login">
+
+
+
+
+    <div class="login">
+      <%= image_tag 'logo.png', :class => "center-block",:title => "logo Referencia Data center" %>
+      <%= form_tag '/login' , class:'form' do%>
+        <%= text_field_tag :Correo, nil,placeholder: 'Usuario',:class=>'input-login input' %>
+        <%= password_field_tag :password,nil, :placeholder => 'Password',:class=>'input-login input'%>
+        <%= submit_tag 'Entrar' ,class: 'btn-custome btn-hollow-green'%>
+      <% end %>
+    </br>
+      <!--Login aler -->
+      <div class='alerta alertTamano '>
+        <% if flash[:alert] %>
+          <div class="alerta2 alert alert-danger" style="margin-left: 10px;margin-right: 10px;font-weight: bold; text-align: center">
+
+            <p><%= flash[:alert] %></p>
+          </div>
+        <% end %>
+      </div>
+
+    </div>
+  </div>
+  <div class="footer-login">
+    <button type="button" class="btn-custome btn-fill-red" id="accesoEmergente" onclick="Cambio()">Acceso rápido</button>
+  </div>
+</div>
+
+
+
+
+<% if params[:CodigoEmpleado].present? %>
+
+
+
+  <div class="ventana-emergente mostrar">
+    <h3 class="text-center">Formulario de acceso emergente</h3>
+
+    <%= form_tag(login_path, method: :get) do %>
+
+      <div class="col-md-6"> <%= text_field_tag :CodigoEmpleado, "", :class => 'form-control', :placeholder => 'Código de empleado ' %></div>
+      <div class="col-md-6"> <%= submit_tag 'Buscar', :class => "btn btn-search", :html => {:id => "enviarData"}, :onclick => "Cambio()" %></div>
+
+    <% end %>
+
+    <% @solicitudes.each do |s| %>
+     <ul>
+       <li> <span>Solicitud id:</span> <%= s.id%> <span>Mensaje:</span> <%=s.Motivo %> </li>
+     </ul>
+    <% end %>
+
+
+
+    <%= form_for @Acceso, url: new_acceso_path(@Acceso), :html => {:id => "formEmgente"} do |f| %>
+
+
+      <% if @Acceso.errors.any? %>
+        <div id="errorExplanation">
+          <ul>
+            <% @Acceso.errors.full_messages.each do |msg| %>
+              <li class="alert alert-danger" role="alert"><%= msg %></li>
+            <% end %>
+          </ul>
+        </div>
+      <% end %>
+
+
+      <% if params[:CodigoEmpleado] %>
+        <% @AccesosEmergente.each do |a| %>
+
+          <h4>Informació personal</h4>
+          <div>
+            <div>
+              <div class="input-group">
+                <label for="">Nombre</label>
+                <% if params[:CodigoEmpleado] %>
+                  <%= f.text_field :Nombre, :value => a.NombreCompleto, class: "form-control ", placeholder: "Ej: Juan Castillo" %>
+                <% else %>
+                  <%= f.text_field :Nombre, class: "form-control ", placeholder: "Ej: Juan Castillo" %>
+                <% end %>
+              </div>
+              <p id="errorNombre"></p>
+            </div>
+
+            <div>
+              <div class="input-group">
+                <label for="">Correo</label>
+                <% if params[:CodigoEmpleado] %>
+                  <%= f.text_field :Correo, :value => a.Correo, class: "form-control ", placeholder: "Ej: juancastillo23@labreferencia.com" %>
+                <% else %>
+                  <%= f.text_field :Correo, class: "form-control ", placeholder: "Ej: juancastillo23@labreferencia.com" %>
+                <% end %>
+              </div>
+              <p id="errorCorreo"></p>
+            </div>
+          </div>
+
+          <div>
+            <div>
+              <div class="input-group">
+                <label for="">Código de empleado</label>
+                <% if params[:CodigoEmpleado] %>
+                  <%= f.text_field :CodigoEmpleado, :value => a.CodigoEmpleado, class: "form-control ", placeholder: "Ej: 123456" %>
+                <% else %>
+                  <%= f.text_field :CodigoEmpleado, class: "form-control ", placeholder: "Ej: 123456" %>
+                <% end %>
+              </div>
+              <p id="errorCodigo"></p>
+            </div>
+
+            <div>
+              <div class="input-group">
+                <label for="">Departamento</label>
+                <% if params[:CodigoEmpleado] %>
+                  <%= f.text_field :Departamento, :value => a.Departamento, class: "form-control ", placeholder: "Ej: Tecnología" %>
+                <% else %>
+                  <%= f.text_field :Departamento, class: "form-control ", placeholder: "Ej: Tecnología" %>
+                <% end %>
+              </div>
+              <p id="errorDepartamento"></p>
+            </div>
+
+          </div>
+
+          <div>
+            <div>
+              <div class="input-group">
+                <label for="">Función</label>
+                <% if params[:CodigoEmpleado] %>
+                  <%= f.text_field :Funcion, :value => a.Funcion, class: "form-control ", placeholder: "Ej: Soporte técnico" %>
+                <% else %>
+                  <%= f.text_field :Funcion, class: "form-control ", placeholder: "Ej: Soporte técnico" %>
+                <% end %>
+              </div>
+              <p id="errorFuncion"></p>
+            </div>
+          </div>
+
+          <footer>
+            <h4>Información de visita</h4>
+            <div>
+              <div class="input-group">
+                <label for="">Empresa</label>
+
+                <%= f.text_field :Empresa, class: "form-control ", placeholder: "Ej: Laboratorio Referencia" %>
+              </div>
+              <p id="errorVisita"></p>
+            </div>
+
+            <div>
+              <div class="input-group">
+                <label for="">Visitante(s)</label>
+
+                <%= f.text_field :Companero, class: "form-control ", placeholder: "Ej: Juan Castillo, Pedro Perez" %>
+              </div>
+              <p id="errorVisita"></p>
+            </div>
+
+            <div>
+              <div class="input-group">
+                <label for="">Telefono</label>
+
+                <%= f.text_field :Telefono, class: "form-control ", placeholder: "Ej: 8092215545" %>
+              </div>
+              <p id="errorVisita"></p>
+            </div>
+
+
+            <div>
+              <div class="input-group">
+                <label for="">Mensaje</label>
+                <%= f.text_area :Mensaje, class: "form-control ", placeholder: "Ej: Mantenimiento de equipos del Data Center ", :cols => "30", :rows => "10" %>
+
+              </div>
+              <p id="errorMensaje"></p>
+            </div>
+            <div>
+              <button class="btn-custome btn-fill-green" type="submit">Enviar</button>
+            </div>
+          </footer>
+        <% end %>
+
+      <% else %>
+        <!--Formulario si no hay busqueda -->
+
+        <h4>Informació personal</h4>
+        <div>
+          <div>
+            <div class="input-group">
+              <label for="">Nombre</label>
+
+              <%= f.text_field :Nombre, class: "form-control ", placeholder: "Ej: Juan Castillo" %>
+
+            </div>
+            <p id="errorNombre"></p>
+          </div>
+
+          <div>
+            <div class="input-group">
+              <label for="">Correo</label>
+
+              <%= f.text_field :Correo, class: "form-control ", placeholder: "Ej: juancastillo23@labreferencia.com" %>
+
+            </div>
+            <p id="errorCorreo"></p>
+          </div>
+        </div>
+
+        <div>
+          <div>
+            <div class="input-group">
+              <label for="">Código de empleado</label>
+
+              <%= f.text_field :CodigoEmpleado, class: "form-control ", placeholder: "Ej: 123456" %>
+
+            </div>
+            <p id="errorCodigo"></p>
+          </div>
+
+          <div>
+            <div class="input-group">
+              <label for="">Departamento</label>
+
+              <%= f.text_field :Departamento, class: "form-control ", placeholder: "Ej: Tecnología" %>
+
+            </div>
+            <p id="errorDepartamento"></p>
+          </div>
+
+        </div>
+
+        <div>
+          <div>
+            <div class="input-group">
+              <label for="">Función</label>
+
+              <%= f.text_field :Funcion, class: "form-control ", placeholder: "Ej: Soporte técnico" %>
+
+            </div>
+            <p id="errorFuncion"></p>
+          </div>
+        </div>
+
+        <footer>
+          <h4>Información de visita</h4>
+          <div>
+            <div class="input-group">
+              <label for="">Empresa</label>
+
+              <%= f.text_field :Empresa, class: "form-control ", placeholder: "Ej: Laboratorio Referencia" %>
+            </div>
+            <p id="errorVisita"></p>
+          </div>
+
+          <div>
+            <div class="input-group">
+              <label for="">Visitante(s)</label>
+
+              <%= f.text_field :Companero, class: "form-control ", placeholder: "Ej: Juan Castillo, Pedro Perez" %>
+            </div>
+            <p id="errorVisita"></p>
+          </div>
+
+          <div>
+            <div class="input-group">
+              <label for="">Telefono</label>
+
+              <%= f.text_field :Telefono, class: "form-control ", placeholder: "Ej: Juan Castillo, Pedro Perez" %>
+            </div>
+            <p id="errorVisita"></p>
+          </div>
+
+          <div>
+            <div class="input-group">
+              <label for="">Mensaje</label>
+              <%= f.text_area :Mensaje, class: "form-control ", placeholder: "Ej: Mantenimiento de equipos del Data Center", :cols => "30", :rows => "10" %>
+
+            </div>
+            <p id="errorMensaje"></p>
+          </div>
+          <div>
+            <button class="btn-custome btn-fill-green" type="submit">Enviar</button>
+          </div>
+        </footer>
+
+        <!-- Fin del formulario si no hay busqueda-->
+      <% end %>
+
+    <% end %>
+    <div class="">
+      <button class="iniciarSesion  btn-custome btn-fill-green" type="button">Iniciar sesion</button>
+    </div>
+
+  </div>
+
+
+
+
+
+
+
+  <% else %>
+<div class="ventana-emergente ocultar">
+  <h3 class="text-center">Formulario de acceso emergente</h3>
+
+        <%= form_tag(login_path, method: :get ) do %>
+
+          <div class="col-md-6"> <%= text_field_tag :CodigoEmpleado, "", :class => 'form-control', :placeholder => 'Código de empleado ' %></div>
+          <div class="col-md-6"> <%= submit_tag 'Buscar', :class => "btn btn-search",:html => { :id => "enviarData"} ,:onclick=>"Cambio()"%></div>
+
+        <% end %>
+
+
+  <%= form_for @Acceso, url: new_acceso_path(@Acceso),:html => { :id => "formEmgente"} do |f|  %>
+
+
+    <% if @Acceso.errors.any? %>
+      <div id="errorExplanation">
+        <ul>
+          <% @Acceso.errors.full_messages.each do |msg| %>
+            <li class="alert alert-danger" role="alert"><%= msg %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+
+
+    <% if params[:CodigoEmpleado] %>
+<% @AccesosEmergente.each do |a| %>
+
+    <h4>Informació personal</h4>
+    <div>
+      <div>
+        <div class="input-group">
+          <label for="">Nombre</label>
+          <% if params[:CodigoEmpleado] %>
+          <%= f.text_field :Nombre,:value=> a.NombreCompleto, class: "form-control ", placeholder: "Ej: Juan Castillo" %>
+            <% else %>
+            <%= f.text_field :Nombre, class: "form-control ", placeholder: "Ej: Juan Castillo" %>
+            <%end%>
+        </div>
+        <p id="errorNombre"></p>
+      </div>
+
+      <div>
+        <div class="input-group">
+          <label for="">Correo</label>
+          <% if params[:CodigoEmpleado] %>
+          <%= f.text_field :Correo,:value=> a.Correo, class: "form-control ", placeholder: "Ej: juancastillo23@labreferencia.com" %>
+          <%else%>
+            <%= f.text_field :Correo,class: "form-control ", placeholder: "Ej: juancastillo23@labreferencia.com" %>
+            <%end%>
+        </div>
+        <p id="errorCorreo"></p>
+      </div>
+    </div>
+
+    <div>
+      <div>
+        <div class="input-group">
+          <label for="">Código de empleado</label>
+          <% if params[:CodigoEmpleado] %>
+          <%= f.text_field :CodigoEmpleado,:value=> a.CodigoEmpleado, class: "form-control ", placeholder: "Ej: 123456" %>
+        <% else %>
+            <%= f.text_field :CodigoEmpleado, class: "form-control ", placeholder: "Ej: 123456" %>
+            <%end %>
+            </div>
+        <p id="errorCodigo"></p>
+      </div>
+
+      <div>
+        <div class="input-group">
+          <label for="">Departamento</label>
+          <% if params[:CodigoEmpleado] %>
+          <%= f.text_field :Departamento,:value=> a.Departamento, class: "form-control ", placeholder: "Ej: Tecnología" %>
+          <% else %>
+            <%= f.text_field :Departamento, class: "form-control ", placeholder: "Ej: Tecnología" %>
+            <%end%>
+            </div>
+        <p id="errorDepartamento"></p>
+      </div>
+
+    </div>
+
+    <div>
+      <div>
+        <div class="input-group">
+          <label for="">Función</label>
+          <% if params[:CodigoEmpleado] %>
+          <%= f.text_field :Funcion,:value=> a.Funcion, class: "form-control ", placeholder: "Ej: Soporte técnico" %>
+            <%else  %>
+            <%= f.text_field :Funcion, class: "form-control ", placeholder: "Ej: Soporte técnico" %>
+        <%end%>
+            </div>
+        <p id="errorFuncion"></p>
+      </div>
+    </div>
+
+    <footer>
+      <h4>Información de visita</h4>
+      <div>
+        <div class="input-group">
+          <label for="">Compañero</label>
+
+          <%= f.text_field :Companero, class: "form-control ", placeholder: "Ej: Juan Castillo, Pedro Perez" %>
+        </div>
+        <p id="errorVisita"></p>
+      </div>
+
+      <div>
+        <div class="input-group">
+          <label for="">Mensaje</label>
+          <%= f.text_area :Mensaje, class: "form-control ", placeholder: "Ej: Mantenimiento de equipos del Data Center ",:cols=>"30", :rows=>"10" %>
+
+        </div>
+        <p id="errorMensaje"></p>
+      </div>
+      <div>
+        <button class="btn-custome btn-fill-green" type="submit">Enviar</button>
+      </div>
+    </footer>
+      <%end%>
+
+      <%else%>
+    <!--Formulario si no hay busqueda -->
+
+      <h4>Informació personal</h4>
+      <div>
+        <div>
+          <div class="input-group">
+            <label for="">Nombre</label>
+
+              <%= f.text_field :Nombre, class: "form-control ", placeholder: "Ej: Juan Castillo" %>
+
+          </div>
+          <p id="errorNombre"></p>
+        </div>
+
+        <div>
+          <div class="input-group">
+            <label for="">Correo</label>
+
+              <%= f.text_field :Correo, class: "form-control ", placeholder: "Ej: juancastillo23@labreferencia.com" %>
+
+          </div>
+          <p id="errorCorreo"></p>
+        </div>
+      </div>
+
+      <div>
+        <div>
+          <div class="input-group">
+            <label for="">Código de empleado</label>
+
+              <%= f.text_field :CodigoEmpleado, class: "form-control ", placeholder: "Ej: 123456" %>
+
+          </div>
+          <p id="errorCodigo"></p>
+        </div>
+
+        <div>
+          <div class="input-group">
+            <label for="">Departamento</label>
+
+              <%= f.text_field :Departamento, class: "form-control ", placeholder: "Ej: Tecnología" %>
+
+          </div>
+          <p id="errorDepartamento"></p>
+        </div>
+
+      </div>
+
+      <div>
+        <div>
+          <div class="input-group">
+            <label for="">Función</label>
+
+              <%= f.text_field :Funcion, class: "form-control ", placeholder: "Ej: Soporte técnico" %>
+
+          </div>
+          <p id="errorFuncion"></p>
+        </div>
+      </div>
+
+      <footer>
+        <h4>Información de visita</h4>
+        <div>
+          <div class="input-group">
+            <label for="">Empresa</label>
+
+            <%= f.text_field :Empresa, class: "form-control ", placeholder: "Ej: Laboratorio Referencia" %>
+          </div>
+          <p id="errorVisita"></p>
+        </div>
+        <div>
+          <div class="input-group">
+            <label for="">Visitante(s)</label>
+
+            <%= f.text_field :Companero, class: "form-control ", placeholder: "Ej: Juan Castillo, Pedro Perez" %>
+          </div>
+          <p id="errorVisita"></p>
+        </div>
+
+        <div>
+          <div class="input-group">
+            <label for="">Telefono</label>
+
+            <%= f.text_field :Telefono, class: "form-control ", placeholder: "Ej: Juan Castillo, Pedro Perez" %>
+          </div>
+          <p id="errorVisita"></p>
+        </div>
+
+
+        <div>
+          <div class="input-group">
+            <label for="">Mensaje</label>
+            <%= f.text_area :Mensaje, class: "form-control ", placeholder: "Ej: Mantenimiento de equipos del Data Center", :cols => "30", :rows => "10" %>
+
+          </div>
+          <p id="errorMensaje"></p>
+        </div>
+        <div>
+          <button class="btn-custome btn-fill-green" type="submit">Enviar</button>
+        </div>
+      </footer>
+
+    <!-- Fin del formulario si no hay busqueda-->
+      <%end%>
+
+    <%end%>
+  <div class="">
+    <button class="iniciarSesion  btn-custome btn-fill-green" type="button">Iniciar sesion</button>
+  </div>
+
+  <% end %>
+</div>
+

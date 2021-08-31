@@ -1,0 +1,105 @@
+<header class="cabecera-principal">
+  <div class="logo-princial">
+    <%= image_tag 'logo.png', alt: 'Regerencia Data Center' %>
+  </div>
+  <div class="">
+
+    <span><span><strong> Usuario:</strong></span> <%= current_user.NombreCompleto %>.</span>
+    <%= link_to "Cerrar session", logout_path, method: :delete, class: 'btn-custome btn-hollow-blue' %>
+
+  </div>
+</header>
+<div class="cuerpo-principal">
+  <aside class="menu">
+    <div class="iconos estilo-menu ">
+      <ul>
+        <li class=""><a href="" class="hint--right" aria-label="Lista de solicitud"><span class="fa fa-address-book"></span></a></li>
+        <li class=""><a href="" class="hint--right" aria-label="Crear Solicitud"><span class="fa fa-address-book"></span></a></li>
+        <li class=""><a href="" class="hint--right" aria-label="Lista de acceso emergente"><span class="fa fa-ambulance"></span></a></li>
+        <li class=""><a href="" class="hint--right" aria-label="Visitas"><span class="fa fa-clipboard"></span></a></li>
+        <li class=""><a href="" class="hint--right" aria-label="Editar usuario"><span class="fa fa-edit"></span></a></li>
+      </ul>
+    </div>
+    <div class="texto-iconos estilo-menu">
+      <ul>
+        <li class=""><%= link_to 'Lista de Solicitud', userInicio_path %></li>
+        <li class=""><%= link_to 'Crear de Solicitud', new_solicitud_path %></li>
+        <li class=""><%= link_to 'Lista de acceso emergente', accesosIndexUser_path %></li>
+        <li class=""><a href="#"> Visitas</a></li>
+        <li class=""><a href="#"> Editar usuario</a></li>
+      </ul>
+    </div>
+  </aside>
+
+  <main class="contenido-principal">
+    <header class="contenido-titulo background-user">
+      <h3 class="text-center"><span class="fa fa-address-book"></span>Detalle de la solicitud</h3>
+    </header>
+    <section class=" contenido-user-crear " >
+      <div class="cabecera-user-crear">
+        <p><span>Id Solicitud:</span><%=@Solicitud.id%></p>
+        <p><span>Fecha:</span><%= @Solicitud.created_at.strftime("%d/%B/%Y")   %></p>
+      </div>
+
+
+
+
+        <div class="datos-usuario">
+          <h3>Datos del usuario</h3>
+          <div>
+            <div class="">
+              <p><span>Usuario:</span> <%= @Solicitud.Usuario %></p>
+              <p><span>Departamento:</span><%= @Solicitud.Departamento %></p>
+              <% if @Solicitud.Estatus == 'Pendiente' %>
+                <p><span>Estatus:</span><div class="pendiente1"> <%= @Solicitud.Estatus %></div></p>
+              <% elsif @Solicitud.Estatus=='Aceptada' %>
+                <p><span>Estatus:</span><div class="aceptada1"> <%= @Solicitud.Estatus %></div></p>
+              <% else %>
+                <p><span >Estatus:</span><div class="denegada1"> <%= @Solicitud.Estatus %></div></p>
+              <% end %>
+
+
+            </div>
+
+            <div class="">
+              <p><span>Codigo:</span> <%= @Solicitud.CodigoEmpleado_id%></p>
+              <p><span>Correo:</span> <%= @Solicitud.Correo %></p>
+              <p><span>Función:</span> <%= @Solicitud.Funcion %></p>
+            </div>
+          </div>
+        </div>
+
+        <div class="">
+          <h3>Datos de la visita</h3>
+          <div class="datos-vista">
+            <div class="">
+
+              <div class="row">
+                <div class="col-md-6">
+                  <p><span>Nombre:</span><br></p>
+                  <%= @Solicitud.Acompanante %>
+                  <p class="error"></p>
+                </div>
+                <div class="col-md-6">
+                  <p><span>Fecha:</span><br></p>
+                  <%= @Solicitud.FechaVisita %>
+                  <p class="error"></p>
+                </div>
+
+              </div>
+              <div>
+                <br>
+                <p><span>Mensaje:</span></p>
+                <%= @Solicitud.Motivo %>
+                <p class="error"></p>
+              </div>
+            </div>
+
+
+
+      </div>
+      </div>
+
+    </section>
+  </main>
+</div>

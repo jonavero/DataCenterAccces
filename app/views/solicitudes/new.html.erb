@@ -1,0 +1,111 @@
+<header class="cabecera-principal">
+  <div class="logo-princial">
+    <%= image_tag 'logo.png', alt: 'Regerencia Data Center' %>
+  </div>
+  <div class="">
+
+    <span><span><strong> Usuario:</strong></span> <%= current_user.NombreCompleto %>.</span>
+    <%= link_to "Cerrar session", logout_path, method: :delete, class: 'btn-custome btn-hollow-blue' %>
+
+  </div>
+</header>
+<div class="cuerpo-principal">
+  <aside class="menu">
+    <div class="iconos estilo-menu ">
+      <ul>
+        <li class=""><a href="" class="hint--right" aria-label="Lista de solicitud"><span class="fa fa-address-book"></span></a></li>
+        <li class=""><a href="" class="hint--right" aria-label="Crear Solicitud"><span class="fa fa-address-book"></span></a></li>
+        <li class=""><a href="" class="hint--right" aria-label="Lista de acceso emergente"><span class="fa fa-ambulance"></span></a></li>
+        <li class=""><a href="" class="hint--right" aria-label="Visitas"><span class="fa fa-clipboard"></span></a></li>
+        <li class=""><a href="" class="hint--right" aria-label="Editar usuario"><span class="fa fa-edit"></span></a></li>
+      </ul>
+    </div>
+    <div class="texto-iconos estilo-menu">
+      <ul>
+        <li class=""><%= link_to 'Lista de Solicitud', userInicio_path %></li>
+        <li class=""><%= link_to 'Crear de Solicitud', new_solicitud_path %></li>
+        <li class=""><%= link_to 'Lista de acceso emergente', accesosIndexUser_path %></li>
+        <li class=""><a href="#"> Visitas</a></li>
+        <li class=""><a href="#"> Editar usuario</a></li>
+      </ul>
+    </div>
+  </aside>
+
+  <main class="contenido-principal">
+    <header class="contenido-titulo background-user">
+      <h3 class="text-center"><span class="fa fa-address-book"></span>Crear solicitud</h3>
+    </header>
+    <section class=" contenido-user-crear " >
+      <div class="cabecera-user-crear">
+
+        <p><span>Fecha:</span><%= DateTime.now.strftime("%d/%B/%Y")   %></p>
+      </div>
+
+
+      <%= form_for @Solicitud, url: new_solicitud_path(@Solicitud) do |f| %>
+        <% if @Solicitud.errors.any? %>
+          <div id="errorExplanation">
+            <ul>
+              <% @Solicitud.errors.full_messages.each do |msg| %>
+                <li class="alert alert-danger" role="alert"><%= msg %></li>
+              <% end %>
+            </ul>
+          </div>
+        <% end %>
+
+
+      <div class="datos-usuario">
+        <h3>Datos del usuario</h3>
+        <div>
+          <div class="">
+            <p><span>Usuario:</span> <%= f.text_field :Usuario,:value=>current_user.NombreCompleto, class: "form-registro",readonly:'' %></p>
+            <p><span>Departamento:</span><%= f.text_field :Departamento,:value=>current_user.Departamento, class: "form-registro", readonly:'' %></p>
+            <p><span>Estatus:</span><%= f.text_field :Estatus, :value => 'Pendiente', class: "form-registro", readonly: '' %></p>
+
+          </div>
+
+          <div class="">
+            <p><span>Codigo:</span> <%= f.text_field :CodigoEmpleado_id, :value => current_user.CodigoEmpleado, class: "form-registro", readonly: '' %></p>
+            <p><span>Correo:</span> <%= f.text_field :Correo,:value=>current_user.Correo, class: "form-registro", readonly:'' %></p>
+            <p><span>Función:</span> <%= f.text_field :Funcion,:value=>current_user.Funcion, class: "form-registro", readonly:'' %></p>
+          </div>
+        </div>
+      </div>
+
+      <div class="">
+        <h3>Datos de la visita</h3>
+        <div class="datos-vista">
+            <div class="">
+
+              <div class="row">
+                <div class="col-md-6">
+                  <span>Nombre:</span><br>
+                  <%= f.text_field :Acompanante, class: "form-registro",:placeholder=>'Acompañantes' %>
+                  <p class="error"></p>
+                </div>
+                <div class="col-md-6">
+                  <span>Fecha:</span><br>
+                  <%= f.date_field :FechaVisita, class: "form-control form-registro" %>
+                  <p class="error"></p>
+                </div>
+
+              </div>
+              <div>
+                <%= f.text_area :Motivo, class: "form-control form-registro",:rows=>"8", :placeholder=>"Motivo" %>
+                <p class="error"></p>
+              </div>
+            </div>
+
+            <div class="">
+              <button class="btn btn-fill-green" type="submit" name="button" >Enviar</button>
+              <button class="btn btn-fill-red" type="reset" name="button" >Cancelar</button>
+            </div>
+
+
+            <% end %>
+        </div>
+      </div>
+
+    </section>
+  </main>
+</div>

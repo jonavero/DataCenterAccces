@@ -1,0 +1,253 @@
+<header class="cabecera-principal">
+  <div class="logo-princial">
+    <%= image_tag 'logo.png', alt: 'Regerencia Data Center' %>
+  </div>
+  <div class="">
+    <span><span><strong> Admin:</strong></span> <%=current_user.NombreCompleto %>.</span>
+    <%= link_to "Cerrar session", logout_path, method: :delete, class: 'btn-custome btn-hollow-blue' %>
+  </div>
+</header>
+
+<div class="cuerpo-principal">
+  <aside class="menu">
+    <div class="iconos estilo-menu">
+      <ul>
+        <li class=""><a href="inicio" class="hint--right" aria-label="Lista de solicitud"><span class="fa fa-address-book"></span></a></li>
+        <li class=""><a href="accesos" class="hint--right" aria-label="Lista de acceso emergente"><span class="fa fa-ambulance"></span></a></li>
+        <li class=""><a href="users" class="hint--right" aria-label="Usuario"><span class="fa fa-users"></span></a></li>
+        <li class=""><a href="" class="hint--right" aria-label="Reportes"><span class="fa fa-file"></span></a></li>
+        <li class=""><a href=""class="hint--right" aria-label="Estadisticas"><span class="fa fa-bar-chart-o"></span></a></li>
+      </ul>
+    </div>
+    <div class="texto-iconos estilo-menu">
+      <ul>
+        <li class=""><%= link_to 'Lista de Solicitud', inicio_path %></li>
+        <li class=""><%= link_to 'Lista de acceso emergente', accesos_path %></li>
+        <li class=""><%= link_to 'Usuarios',users_path %></li>
+        <li class=""><a href="#"> Reportes</a></li>
+        <li class=""><a href="#"> Estadisticas</a></li>
+      </ul>
+    </div>
+  </aside>
+
+  <main class="contenido-principal contenido-informacion-usuarios">
+    <header class="contenido-titulo titulo-usuarios">
+      <h3 class="text-center"><span class="fa fa fa-users"></span>Usuarios</h3>
+    </header>
+
+
+
+    <section class="contenido-informacion contenido-informacion-usuarios">
+      <div class="">
+        <%= form_tag(users_path, method: :get) do %>
+        <div class="manejar-usuarios">
+          <div class="row">
+         <div class="col-md-6">
+           <%= text_field_tag :CodigoEmpleado,"",:placeholder=>'Buscar usuario',:class=>'form-control' %>
+         </div>
+
+            <div class="col-md-6">
+          <button class="btn-custome btn-hollow-green" type="button" name="button" data-toggle="modal" data-target="#modalCrearUser">Crear Usuario</button>
+            </div>
+
+          </div>
+        </div>
+        <% end %>
+        <table class="table-custome table-usuarios" summary="las solicitudes por usuario">
+          <thead>
+          <tr>
+            <th>ID</th>
+            <th>Nombre</th>
+            <th>Correo</th>
+            <th>Departamento</th>
+            <th>Acción</th>
+            <th></th>
+          </tr>
+
+          <thead>
+          <tbody class="cuerpo-table">
+          <% @Usuarios.each do |u| %>
+          <tr >
+            <td><%= u.CodigoEmpleado %></td>
+            <td><%= u.NombreCompleto %></td>
+            <td><%= u.Correo %></td>
+            <td><%= u.Departamento %></td>
+            <td><%= link_to 'Detalle',showUser_path(u)%></td>
+            <td><button type="button" class="" data-toggle="modal" data-target="#modalEditarUser" name="button"><span class="fa fa-edit"></span><%= link_to 'Editar',edit_path(u)%></button></td>
+          </tr>
+          <% end %>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <%if params[:CodigoEmpleado] %>
+
+      <%else %>
+
+    <footer class="controladores">
+      <%= will_paginate @Usuarios, renderer: WillPaginate::ActionView::BootstrapLinkRenderer %>
+    </footer>
+
+      <% end %>
+  </main>
+</div>
+
+
+
+<!--Ventana modal detalle usuario-->
+<div class="modal face modal-detalle-usuario" tabindex="-1" id="modalDetallesUsuario">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-body">
+        <div class="">
+          <button type="button" class=" times times-white close " data-dismiss="modal"><span class="fa fa-times"></span></button>
+        </div>
+        <header class="detalle-usuario">
+          <p>Juan Ernesto Mota </p>
+        </header>
+        <div class="detalle-Info-usuario">
+          <p>Código de empleado:<span>8542</span></p>
+          <p>Correo:<span>juaneneresto123@gmail.com</span></p>
+          <p>Departamento:<span>Tecnología</span></p>
+          <p>Función:<span>Soporte</span></p>
+          <p>Estatus:<span>Habilitado</span></p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- ventana modal editar ususario -->
+<div class="modal face modal-detalle-usuario modal-editar-usuario" tabindex="-1" id="modalEditarUser">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-body">
+        <div class="">
+          <button type="button" class="times times-white close" data-dismiss="modal"><span class="fa fa-times"></span></button>
+        </div>
+        <header class="detalle-usuario">
+          <p>Editar usuario</p>
+        </header>
+        <form method="">
+          <div class="detalle-Info-usuario editar-Info-usuario">
+            <div class="">
+              <div class="campo-editar-usuario">
+                <label for="nombre-editar">Nombre:</label>
+                <input type="text" id="nombre-editar" name="" value="Juan Ernesto Hernandéz">
+              </div>
+              <div class="campo-editar-usuario">
+                <label for="codigo-editar">Código de empleado:</label>
+                <input type="text" id="codigo-editar" name="" value="4548">
+              </div>
+              <div class="campo-editar-usuario">
+                <label for="funcion-editar">Función:</label>
+                <input type="text" id="funcion-editar" name="" value="Soporte">
+              </div>
+            </div>
+
+            <div class="">
+              <div class="campo-editar-usuario">
+                <label for="corre-editar">Correo:</label>
+                <input type="text" id="corre-editar" name="" value="juaneneresto123@gmail.com">
+              </div>
+              <div class="campo-editar-usuario">
+                <label for="departamento-editar">Departamento:</label>
+                <input type="text" id="departamento-editar" name="" value="Tecnología">
+              </div>
+              <div class=" estatus-editar-user campo-editar-usuario">
+                <label for="#">Estatus:</label>
+                <div class="">
+                  <button type="button" class="btn-custome btn-hollow-green" name="button">Habilitado</button>
+                  <button type="button" class="btn-custome btn-hollow-red" name="button">Deshabilitar</button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="footer-btn-user">
+            <button type="submit" class="btn-hollow-green btn-custome" name="button">Guardar cambio</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!--Ventana modal crear usuario-->
+<div class="modal face modal-detalle-usuario modal-editar-usuario" tabindex="-1" id="modalCrearUser">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-body">
+        <div class="">
+          <button type="button" class="times times-white close" data-dismiss="modal"><span class="fa fa-times"></span></button>
+        </div>
+        <header class="detalle-usuario">
+          <p>Crear usuario</p>
+        </header>
+
+
+        <%= form_for @Usuario, url: new_usuario_path(@Usuario)do |f| %>
+          <% if @Usuario.errors.any? %>
+            <div id="errorExplanation">
+              <ul>
+                <% @Usuario.errors.full_messages.each do |msg| %>
+                  <li  class="alert alert-danger" role="alert" ><%= msg %></li>
+                <% end %>
+              </ul>
+            </div>
+          <% end %>
+
+
+          <div class="detalle-Info-usuario editar-Info-usuario">
+            <div class="row">
+
+            <div class="col-md-6">
+              <div class="campo-editar-usuario">
+                <label for="nombre-editar">Nombre:</label>
+                <%= f.text_field :NombreCompleto, class: "form-registro", placeholder: "Nombre Completo" %>
+              </div>
+              <div class="campo-editar-usuario">
+                <label for="codigo-editar">Código:</label>
+                <%= f.text_field :CodigoEmpleado, class: "form-registro ", placeholder: "Codigo Empleado" %>
+              </div>
+              <div class="campo-editar-usuario">
+                <label for="funcion-editar">Función:</label>
+                <%= f.text_field :Funcion, class: "form-registro", placeholder: "Funcion" %>
+              </div>
+              <div class="campo-editar-usuario">
+                <label for="departamento-editar">Estatus:</label>
+                <%= f.select :Estatus, ['Activo', 'Inactivo'], {:prompt => "Seleccionar"} %>
+              </div>
+            </div>
+
+            <div class="col-md-6">
+              <div class="campo-editar-usuario">
+                <label for="corre-editar">Correo:</label>
+                <%= f.text_field :Correo, class: "form-registro", placeholder: "Correo" %>
+              </div>
+              <div class="campo-editar-usuario">
+                <label for="departamento-editar">Departamento:</label>
+                <%= f.text_field :Departamento, class: "form-registro", placeholder: "Departamento" %>
+              </div>
+              <div class="campo-editar-usuario">
+                <label for="departamento-editar">Contrasena:</label>
+                <%= f.password_field :password, class: "form-registro", placeholder: "Contraseña" %>
+              </div>
+              <div class="campo-editar-usuario">
+                <label for="departamento-editar">Tipo:</label>
+                <%= f.select :Tipo, ['Admin', 'User'], {:prompt => "Seleccionar"} %>
+              </div>
+
+            </div>
+            </div>
+          </div>
+
+
+
+          <div class="footer-btn-user">
+            <button type="submit" class="btn-hollow-green btn-custome" name="button">Guardar cambio</button>
+          </div>
+        <%end %>
+      </div>
+    </div>
+  </div>
+</div>

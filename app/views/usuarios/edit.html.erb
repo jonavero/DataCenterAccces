@@ -1,0 +1,30 @@
+<h1 >EDITAR USUARIO</h1>
+<%= form_for @Usuario, url: update_path(@Usuario) do |f|%>
+  <% if @Usuario.errors.any? %>
+    <div id="errorExplanation">
+      <ul>
+        <% @Usuario.errors.full_messages.each do |msg| %>
+          <li  class="alert alert-danger" role="alert" ><%= msg %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <%= f.text_field :CodigoEmpleado, :placeholder => 'Codigo de empleado'%>
+  <%= f.text_field :NombreCompleto, :placeholder => 'Nombre Completo'%>
+  <%= f.text_field :Departamento, :placeholder => 'Departamento'%>
+  <%= f.text_field :Funcion, :placeholder => 'Funcion'%>
+  <%= f.text_field :Usuario, :placeholder => 'Usuario'%>
+  <%= f.password_field  :password, :placeholder => 'Contraseña'%>
+  <%= f.text_field :Correo, :placeholder => 'Correo'%>
+  <%= f.select :Estatus, ['Activo','Inactivo'],{ :prompt => "Seleccionar"}%>
+
+
+
+  <%= f.submit 'Actualizar'%>
+
+
+
+
+
+<%end%>

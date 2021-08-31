@@ -1,0 +1,78 @@
+<header class="cabecera-principal">
+  <div class="logo-princial">
+    <%= image_tag 'logo.png', alt: 'Regerencia Data Center' %>
+  </div>
+  <div class="">
+
+    <span><span><strong> Admin:</strong></span> <%= current_user.NombreCompleto %>.</span>
+    <%= link_to "Cerrar session", logout_path, method: :delete, class: 'btn-custome btn-hollow-blue' %>
+
+  </div>
+</header>
+<div class="cuerpo-principal">
+  <aside class="menu">
+    <div class="iconos estilo-menu">
+      <ul>
+        <li class="">
+          <a href="inicio" class="hint--right" aria-label="Lista de solicitud"><span class="fa fa-address-book"></span></a>
+        </li>
+        <li class="">
+          <a href="accesos" class="hint--right" aria-label="Lista de acceso emergente"><span class="fa fa-ambulance"></span></a>
+        </li>
+        <li class="users"><a href="" class="hint--right" aria-label="Usuario"><span class="fa fa-users"></span></a></li>
+        <li class=""><a href="" class="hint--right" aria-label="Reportes"><span class="fa fa-file"></span></a></li>
+        <li class="">
+          <a href="" class="hint--right" aria-label="Estadisticas"><span class="fa fa-bar-chart-o"></span></a></li>
+      </ul>
+    </div>
+    <div class="texto-iconos estilo-menu">
+      <ul>
+        <li class=""><%= link_to 'Lista de Solicitud', inicio_path %></li>
+        <li class=""><%= link_to 'Lista de acceso emergente', accesos_path %></li>
+        <li class=""><%= link_to 'Usuarios', users_path %></li>
+        <li class=""><a href="#"> Reportes</a></li>
+        <li class=""><a href="#"> Estadisticas</a></li>
+      </ul>
+    </div>
+  </aside>
+
+  <main class="contenido-principal">
+    <header class="contenido-titulo background-user">
+      <h3 class="text-center"><span class="fa fa-address-book"></span>Detalle de la solicitud</h3>
+    </header>
+    <section class=" contenido-user-crear " >
+      <div class="cabecera-user-crear">
+        <p><span>Id Usuario:</span><%=@Usuario.id%></p>
+        <p><span>Fecha de creacion:</span><%= @Usuario.created_at.strftime("%d/%B/%Y")   %></p>
+      </div>
+
+
+
+
+      <div class="datos-usuario">
+        <h3>Datos del usuario</h3>
+        <div>
+          <div class="">
+            <p><span>Usuario:</span> <%= @Usuario.NombreCompleto %></p>
+            <p><span>Departamento:</span><%= @Usuario.Departamento %></p>
+            <p><span>Estatus:</span> <%= @Usuario.Estatus %></p>
+            <p><span>Tipo:</span> <%= @Usuario.Tipo %></p>
+
+
+          </div>
+
+          <div class="">
+            <p><span>Usuario:</span> <%= @Usuario.Usuario %></p>
+            <p><span>Codigo:</span> <%= @Usuario.CodigoEmpleado%></p>
+            <p><span>Correo:</span> <%= @Usuario.Correo %></p>
+            <p><span>Función:</span> <%= @Usuario.Funcion %></p>
+
+          </div>
+        </div>
+      </div>
+
+
+
+    </section>
+  </main>
+</div>
