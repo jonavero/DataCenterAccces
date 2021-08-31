@@ -12,7 +12,7 @@ default: &default
   adapter: sqlserver
   encoding: utf8
   username: sa
-  password: Alexander05
+  password: 
   host: localhost
 
 development:
